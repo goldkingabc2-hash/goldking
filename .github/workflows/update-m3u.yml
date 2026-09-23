@@ -1,9 +1,9 @@
-name: Auto Update M3U
+name: Auto Update JioTVPlus3
 
 on:
-  workflow_dispatch:
   schedule:
     - cron: "*/30 * * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -16,33 +16,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download POCKET-TV
+      - name: Download Playlist 1
         run: |
-          curl -L --fail \
-            "https://raw.githubusercontent.com/sportlive18/playlist/refs/heads/main/pocket.m3u" \
-            -o POCKET-TV.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/pocket.m3u" -o source1.m3u
 
-      - name: Download JioTVPlus
+      - name: Download Playlist 2
         run: |
-          curl -L --fail \
-            "https://raw.githubusercontent.com/maybetv/jojo/refs/heads/main/Jojo.m3u" \
-            -o JioTVPlus.m3உ
-                  - name: Download Tamil Movie
+          curl -L "https://raw.githubusercontent.com/maybetv/jojo/refs/heads/main/pocket.m3u" -o source2.m3u
+
+      - name: Create JioTVPlus3
         run: |
-          curl -L --fail \
-            "https://raw.githubusercontent.com/Babuperumana/movies_m3u/refs/heads/main/playlist.m3u" \
-            -o "Tamil Movie.m3u"
+          echo '#EXTM3U' > JioTVPlus3.m3u
+          tail -n +2 source1.m3u >> JioTVPlus3.m3u
+          tail -n +2 source2.m3u >> JioTVPlus3.m3u
 
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add POCKET-TV.m3u JioTVPlus.m3u "Tamil Movie.m3u"
+          git add JioTVPlus3.m3u
 
           if git diff --cached --quiet; then
-            echo "No changes detected"
+            echo "No changes"
           else
-            git commit -m "Auto update M3U playlists"
+            git commit -m "Auto update JioTVPlus3"
             git push
           fi
