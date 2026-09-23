@@ -1,4 +1,4 @@
-name: Auto Update JioTVPlus3
+name: Auto Update JioTVPlus4 Plus5
 
 on:
   schedule:
@@ -16,30 +16,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download Playlist 1
+      - name: Download JioTVPlus4
         run: |
-          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/pocket.m3u" -o source1.m3u
+          curl -fL "https://raw.githubusercontent.com/Kalyan123407/STBPLUS/refs/heads/main/streamflex_fresh.m3u" -o JioTVPlus4.m3u
 
-      - name: Download Playlist 2
+      - name: Download JioTVPlus5
         run: |
-          curl -L "https://raw.githubusercontent.com/maybetv/jojo/refs/heads/main/pocket.m3u" -o source2.m3u
-
-      - name: Create JioTVPlus3
-        run: |
-          echo '#EXTM3U' > JioTVPlus3.m3u
-          tail -n +2 source1.m3u >> JioTVPlus3.m3u
-          tail -n +2 source2.m3u >> JioTVPlus3.m3u
+          curl -fL "https://raw.githubusercontent.com/purupc00-dev/Gmax-JioTV/refs/heads/main/Playlists/JioTV_S1.m3u" -o JioTVPlus5.m3u
 
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add JioTVPlus3.m3u
+          git add JioTVPlus4.m3u JioTVPlus5.m3u
 
           if git diff --cached --quiet; then
-            echo "No changes"
+            echo "No changes detected"
           else
-            git commit -m "Auto update JioTVPlus3"
+            git commit -m "Auto update JioTVPlus4 and JioTVPlus5"
             git push
           fi
