@@ -26,7 +26,12 @@ jobs:
         run: |
           curl -L --fail \
             "https://raw.githubusercontent.com/maybetv/jojo/refs/heads/main/Jojo.m3u" \
-            -o JioTVPlus.m3u
+            -o JioTVPlus.m3உ
+                  - name: Download Tamil Movie
+        run: |
+          curl -L --fail \
+            "https://raw.githubusercontent.com/Babuperumana/movies_m3u/refs/heads/main/playlist.m3u" \
+            -o "Tamil Movie.m3u"
 
       - name: Commit changes
         run: |
