@@ -18,7 +18,7 @@ jobs:
 
       - name: Download M3U
         run: |
-          curl -L "https://raw.githubusercontent.com/goldkingabc2-hash/goldking/refs/heads/main/POCKET%20TV?token=GHSAT0AAAAAAEIKDWSBLN4A6K6GABB3E2L62VTL2LQ" -o "POCKET TV"
+          curl -L "https://raw.githubusercontent.com/maybetv/jojo/refs/heads/main/pocket.m3u" -o "POCKET TV"
 
       - name: Commit changes
         run: |
