@@ -1,0 +1,77 @@
+name: Auto Update M3U Playlists
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-playlists:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download JioTVPlus9
+        run: |
+          curl -L "https://raw.githubusercontent.com/sportlink10/playlist/refs/heads/main/jtvplus9.m3u" -o JioTVPlus9.m3u
+
+      - name: Download JioTVPlus7
+        run: |
+          curl -L "https://raw.githubusercontent.com/sportlink10/playlist/refs/heads/main/jtvplus7.m3u" -o JioTVPlus7.m3u
+
+      - name: Download JioTVPlus6
+        run: |
+          curl -L "https://raw.githubusercontent.com/sportlink10/playlist/refs/heads/main/jtvplus6.m3u" -o JioTVPlus6.m3u
+
+      - name: Download JioTVPlus5
+        run: |
+          curl -L "https://raw.githubusercontent.com/sportlink10/playlist/refs/heads/main/jtvplus5.m3u" -o JioTVPlus5.m3u
+
+      - name: Download JioTVPlus3
+        run: |
+          curl -L "https://raw.githubusercontent.com/sportlink10/playlist/refs/heads/main/jtvplus3.m3u" -o JioTVPlus3.m3u
+
+      - name: Download JioTVPlus2
+        run: |
+          curl -L "https://raw.githubusercontent.com/sportlink10/playlist/refs/heads/main/jtvplus2.m3u" -o JioTVPlus2.m3u
+
+      - name: Download JioTV2
+        run: |
+          curl -L "https://raw.githubusercontent.com/sportlink10/playlist/refs/heads/main/jtv2.m3u" -o JioTV2.m3u
+
+      - name: Download JioTV
+        run: |
+          curl -L "https://raw.githubusercontent.com/sportlink10/playlist/refs/heads/main/jtv.m3u" -o JioTV.m3u
+
+      - name: Download Pocket
+        run: |
+          curl -L "https://raw.githubusercontent.com/sportlink10/playlist/refs/heads/main/pocket.m3u" -o Pocket.m3u
+
+      - name: Commit Changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            JioTVPlus9.m3u \
+            JioTVPlus7.m3u \
+            JioTVPlus6.m3u \
+            JioTVPlus5.m3u \
+            JioTVPlus3.m3u \
+            JioTVPlus2.m3u \
+            JioTV2.m3u \
+            JioTV.m3u \
+            Pocket.m3u
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          git commit -m "Auto update M3U playlists"
+          git push
