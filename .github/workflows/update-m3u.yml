@@ -2,7 +2,7 @@ name: Auto Update JioTVPlus 4-8
 
 on:
   schedule:
-    - cron: "0 0 1 * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 
