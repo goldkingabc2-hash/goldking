@@ -1,0 +1,67 @@
+name: Auto Update M3U Playlists
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-playlists:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download Playlists
+        run: |
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/pocket.m3u" -o pocket.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtv.m3u" -o jtv.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtv1.m3u" -o jtv1.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtv2.m3u" -o jtv2.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtv3.m3u" -o jtv3.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtv4.m3u" -o jtv4.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtv5.m3u" -o jtv5.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtvplus.m3u" -o jtvplus.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtvplus2.m3u" -o jtvplus2.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtvplus3.m3u" -o jtvplus3.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtvplus4.m3u" -o jtvplus4.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtvplus5.m3u" -o jtvplus5.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtvplus6.m3u" -o jtvplus6.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtvplus7.m3u" -o jtvplus7.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtvplus8.m3u" -o jtvplus8.m3u
+          curl -L "https://raw.githubusercontent.com/sportlive18/jio-tv-auto-update-playlist/refs/heads/main/jtvplus9.m3u" -o jtvplus9.m3u
+
+      - name: Commit Changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            pocket.m3u \
+            jtv.m3u \
+            jtv1.m3u \
+            jtv2.m3u \
+            jtv3.m3u \
+            jtv4.m3u \
+            jtv5.m3u \
+            jtvplus.m3u \
+            jtvplus2.m3u \
+            jtvplus3.m3u \
+            jtvplus4.m3u \
+            jtvplus5.m3u \
+            jtvplus6.m3u \
+            jtvplus7.m3u \
+            jtvplus8.m3u \
+            jtvplus9.m3u
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          git commit -m "Auto update M3U playlists"
+          git push
